@@ -1,0 +1,29 @@
+flowchart TD
+    A([Kullanıcı Sorusu]) --> B[Soru Alınır]
+
+    B --> C{Embedding\nModeli}
+    C --> |OpenAI Embeddings\nya da HuggingFace| D[Vektör Temsiline\nDönüştürülür]
+
+    D --> E[(ChromaDB\nVektör Veritabanı)]
+    E --> F[Anlamsal Benzerlik\nAraması]
+    F --> G[En İlgili k Belge\nBağlam Olarak Seçilir]
+
+    G --> H[Bağlam + Kullanıcı Sorusu\nBirleştirilir]
+
+    H --> I[/System Prompt:\nTeşhis ve tedavi\nönerisi verme/]
+    I --> J[LLM'e Gönderilir\nGemini Flash]
+
+    J --> K{Yalnızca Sağlanan\nBağlama Dayalı\nYanıt Üretilir}
+
+    K --> |İlgili belge bulundu| L[Yanıt + Kaynak\nBilgisi Döner]
+    K --> |İlgili belge bulunamadı| M[Genel Bilgi\nYanıtı Döner]
+
+    L --> N([Kullanıcıya Gösterilir])
+    M --> N
+
+    style A fill:#0f766e,color:#fff
+    style N fill:#0f766e,color:#fff
+    style I fill:#b45309,color:#fff
+    style E fill:#1e40af,color:#fff
+    style J fill:#7c3aed,color:#fff
+    style K fill:#7c3aed,color:#fff
